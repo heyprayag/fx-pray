@@ -5,7 +5,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>fx.pray. | Student Portal</title>
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{
@@ -63,7 +62,6 @@ input:focus{border-color:#aaa}
 }
 </style>
 </head>
-
 <body>
 
 <div class="auth-box" id="authBox">
@@ -77,10 +75,8 @@ input:focus{border-color:#aaa}
     <form id="loginForm">
       <label for="loginEmail">Email address</label>
       <input id="loginEmail" type="email" required autocomplete="email">
-
       <label for="loginPassword">Password</label>
       <input id="loginPassword" type="password" required autocomplete="current-password">
-
       <button class="primary" type="submit" id="loginButton">Sign In</button>
     </form>
 
@@ -97,10 +93,8 @@ input:focus{border-color:#aaa}
     <form id="signupForm">
       <label for="signupEmail">Email address</label>
       <input id="signupEmail" type="email" required autocomplete="email">
-
       <label for="signupPassword">Create password</label>
       <input id="signupPassword" type="password" minlength="6" required autocomplete="new-password">
-
       <button class="primary" type="submit" id="signupButton">Create Account</button>
     </form>
 
@@ -139,13 +133,14 @@ input:focus{border-color:#aaa}
   </div>
 
   <div class="note">
-    <p>Account login is working in this first version. Course access is not yet enabled. Student applications must still be reviewed before enrollment is confirmed.</p>
+    <p>This is the first version of the student portal. Course materials are not enabled yet. Student applications must be reviewed before enrollment is confirmed.</p>
   </div>
 </main>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyCXtsntQZI9TapPEbuqZpN_bmgacq_ufV8",
@@ -157,8 +152,9 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
 const auth = firebase.auth();
-  const db = firebase.firestore();
+const db = firebase.firestore();
 
 const authBox = document.getElementById("authBox");
 const studentPortal = document.getElementById("studentPortal");
@@ -253,7 +249,6 @@ document.getElementById("forgotPassword").onclick = async () => {
 
 document.getElementById("logoutButton").onclick = () => auth.signOut();
 
-
 auth.onAuthStateChanged(async (user) => {
   if (!user || !user.emailVerified) {
     authBox.classList.remove("hidden");
@@ -293,8 +288,6 @@ auth.onAuthStateChanged(async (user) => {
     console.error(error);
   }
 });
-
 </script>
-
 </body>
 </html>
