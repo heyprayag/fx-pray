@@ -458,6 +458,143 @@ footer{
   .hero h1{font-size:44px}
   .hero-bottom{gap:22px}
 }
+
+/* ==============================
+   FX.PRAY PREMIUM ANIMATIONS
+================================ */
+
+/* Smooth page entrance */
+@keyframes pageEnter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+body {
+  animation: pageEnter 1s ease;
+}
+
+/* Hero entrance */
+@keyframes heroEnter {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-content > * {
+  animation: heroEnter .9s ease both;
+}
+
+.hero-content > *:nth-child(1) { animation-delay: .1s; }
+.hero-content > *:nth-child(2) { animation-delay: .2s; }
+.hero-content > *:nth-child(3) { animation-delay: .35s; }
+.hero-content > *:nth-child(4) { animation-delay: .5s; }
+.hero-content > *:nth-child(5) { animation-delay: .65s; }
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity .8s ease,
+    transform .8s cubic-bezier(.2,.7,.2,1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Premium card hover */
+.feature,
+.pricing-card,
+.about-visual {
+  transition:
+    transform .35s ease,
+    border-color .35s ease,
+    background .35s ease;
+}
+
+.feature:hover,
+.pricing-card:hover {
+  transform: translateY(-6px);
+  border-color: #777;
+  background: #151515;
+}
+
+.about-visual:hover {
+  border-color: #888;
+}
+
+/* Curriculum hover */
+.week {
+  transition: padding .3s ease, background .3s ease;
+}
+
+.week:hover {
+  padding-left: 14px;
+  background: #141414;
+}
+
+.week-arrow {
+  transition: transform .3s ease;
+}
+
+.week:hover .week-arrow {
+  transform: translate(4px,-4px);
+}
+
+/* Button interaction */
+.btn {
+  transition: all .3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255,255,255,.08);
+}
+
+/* FAQ animation */
+.faq-answer {
+  display: block;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding-bottom: 0;
+  transition:
+    max-height .4s ease,
+    opacity .3s ease,
+    padding .3s ease;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 180px;
+  opacity: 1;
+  padding-bottom: 22px;
+}
+
+/* Navigation hover */
+.nav-links a {
+  transition: color .25s ease;
+}
+
+/* Accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
 </style>
 </head>
 
@@ -826,6 +963,34 @@ document.querySelectorAll('.faq-question').forEach(button => {
     button.querySelector('span').textContent =
       item.classList.contains('active') ? '−' : '+';
   });
+});
+
+// FX.PRAY SCROLL ANIMATIONS
+
+const revealElements = document.querySelectorAll(
+  'section, .stat, .feature, .week, .pricing-card, .contact-box'
+);
+
+revealElements.forEach(element => {
+  element.classList.add('reveal');
+});
+
+const observer = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  {
+    threshold: 0.12
+  }
+);
+
+revealElements.forEach(element => {
+  observer.observe(element);
 });
 </script>
 
