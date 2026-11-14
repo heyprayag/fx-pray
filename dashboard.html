@@ -260,7 +260,7 @@ auth.onAuthStateChanged(async (user) => {
   studentPortal.classList.add("hidden");
 
   try {
-    const profile = await db.collection("he ram").doc(user.uid).get();
+   const profile = await db.collection("he ram").doc(user.uid).get();
 
     if (!profile.exists) {
       await auth.signOut();
