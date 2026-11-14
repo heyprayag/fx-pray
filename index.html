@@ -581,7 +581,63 @@ body {
 .nav-links a {
   transition: color .25s ease;
 }
+/* Enrollment process */
+.join-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 40px;
+}
 
+.join-step {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 25px 20px;
+  min-height: 190px;
+  transition: transform .3s ease, border-color .3s ease;
+}
+
+.join-step:hover {
+  transform: translateY(-5px);
+  border-color: #777;
+}
+
+.join-step-number {
+  color: #777;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.join-step h3 {
+  font-size: 15px;
+  margin: 22px 0 9px;
+}
+
+.join-step p {
+  color: #888;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.join-action {
+  margin-top: 32px;
+}
+
+@media(max-width:750px) {
+  .join-steps {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media(max-width:480px) {
+  .join-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .join-step {
+    min-height: auto;
+  }
+}
 /* Accessibility: respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -607,8 +663,9 @@ body {
     <div class="nav-links" id="navLinks">
       <a href="#about">About</a>
       <a href="#curriculum">Curriculum</a>
-      <a href="#mentorship">Mentorship</a>
-      <a href="#faq">FAQs</a>
+<a href="#mentorship">Mentorship</a>
+<a href="#join">How to Join</a>
+<a href="#faq">FAQs</a>
     </div>
 
     <a class="btn nav-cta" href="#mentorship">Explore Program ↗</a>
@@ -849,7 +906,7 @@ body {
   </div>
 </section>
 
-<section id="faq">
+<section id="join">   <div class="container">     <div class="section-label">04 / Enrollment Process</div>      <h2 class="section-title">       How to join<br>fx.pray.     </h2>      <p class="section-desc">       A clear application process, from your first enquiry       to confirmation of enrollment.     </p>      <div class="join-steps">        <div class="join-step">         <div class="join-step-number">STEP 01</div>         <h3>Submit your application</h3>         <p>Complete the student application form.</p>       </div>        <div class="join-step">         <div class="join-step-number">STEP 02</div>         <h3>Application review</h3>         <p>Applications are reviewed before an enrollment decision.</p>       </div>        <div class="join-step">         <div class="join-step-number">STEP 03</div>         <h3>Receive an update</h3>         <p>Approved applicants receive the next-step details.</p>       </div>        <div class="join-step">         <div class="join-step-number">STEP 04</div>         <h3>Confirm enrollment</h3>         <p>Enrollment is confirmed after arrangements are completed.</p>       </div>      </div>      <div class="join-action">       <a         href="https://docs.google.com/forms/d/e/1FAIpQLSc23OzAaAF6MOSfm3VgcGboQESLAx91yOlbj70nrIHsM23pZA/viewform"         target="_blank"         rel="noopener noreferrer"         class="btn">         Submit an Application ↗       </a>     </div>    </div> </section>
   <div class="container">
     <div class="section-label">04 / Frequently Asked Questions</div>
     <h2 class="section-title">Questions? Answered.</h2>
