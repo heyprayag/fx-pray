@@ -4,324 +4,265 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Dashboard | fx.pray.</title>
+<title>fx.pray. | Student Portal</title>
+
 <style>
-:root {
-  --bg:#080808;
-  --panel:#111;
-  --panel2:#171717;
-  --text:#f5f5f5;
-  --muted:#888;
-  --line:#292929;
-  --accent:#d8d8d8;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-  background:var(--bg);color:var(--text);
+  background:#080808;color:#f5f5f5;
   font-family:Arial,Helvetica,sans-serif;
-  min-height:100vh;
+  min-height:100vh;display:grid;place-items:center;padding:20px
 }
-button{font:inherit}
-.layout{display:flex;min-height:100vh}
-.sidebar{
-  width:245px;padding:30px 20px;
-  border-right:1px solid var(--line);
-  position:fixed;inset:0 auto 0 0;
-  background:#090909;z-index:5;
+button,input{font:inherit}
+.auth-box{
+  width:100%;max-width:420px;background:#111;
+  border:1px solid #292929;border-radius:14px;padding:35px
 }
-.logo{font-size:25px;font-weight:800;letter-spacing:-1.5px}
+.logo{font-size:29px;font-weight:800;letter-spacing:-2px;margin-bottom:35px}
 .logo span{color:#777}
-.side-label{
-  color:#666;font-size:10px;letter-spacing:2px;
-  margin:48px 0 15px 10px;
+.eyebrow{font-size:10px;letter-spacing:2px;color:#888}
+h1{font-size:30px;letter-spacing:-1px;margin:12px 0}
+.description{font-size:13px;color:#999;line-height:1.7;margin-bottom:27px}
+label{display:block;font-size:11px;color:#aaa;margin:17px 0 8px}
+input{
+  width:100%;background:#080808;border:1px solid #333;
+  color:white;border-radius:7px;padding:13px;outline:none
 }
-.nav{display:grid;gap:7px}
-.nav button{
-  border:0;background:transparent;color:#999;
-  text-align:left;padding:13px 12px;border-radius:8px;
-  cursor:pointer;font-size:13px;transition:.2s;
+input:focus{border-color:#aaa}
+.primary{
+  width:100%;padding:14px;border:0;border-radius:7px;
+  background:#eee;color:#111;font-weight:bold;
+  cursor:pointer;margin-top:22px
 }
-.nav button:hover,.nav button.active{
-  background:#1c1c1c;color:white;
+.primary:disabled{opacity:.5;cursor:wait}
+.switch{
+  background:none;border:0;color:#eee;text-decoration:underline;
+  cursor:pointer;font-size:12px;margin-top:22px
 }
-.sidebar-note{
-  position:absolute;bottom:28px;left:20px;right:20px;
-  color:#666;font-size:11px;line-height:1.7;
-}
-.main{margin-left:245px;width:calc(100% - 245px);padding:35px 5vw 60px}
-.topbar{
-  display:flex;justify-content:space-between;
-  align-items:center;gap:20px;margin-bottom:48px;
-}
-.eyebrow{font-size:10px;color:#777;letter-spacing:2px;text-transform:uppercase}
-.topbar h2{font-size:14px;font-weight:500;margin-top:7px}
-.profile{
-  border:1px solid var(--line);padding:10px 14px;
-  border-radius:30px;color:#aaa;font-size:11px;
-}
-.page{display:none;animation:fade .35s ease}
-.page.active{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.heading{font-size:clamp(32px,5vw,52px);letter-spacing:-2px;margin:12px 0}
-.sub{color:var(--muted);font-size:13px;line-height:1.8;max-width:570px}
-.stats{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:14px;margin:35px 0;
-}
-.card{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:12px;padding:22px;
-}
-.stat-number{font-size:30px;letter-spacing:-1px;margin:13px 0 5px}
-.stat-label{font-size:11px;color:#888}
-.section-title{font-size:19px;margin:35px 0 17px}
-.progress-card{margin-bottom:25px}
-.progress-top{display:flex;justify-content:space-between;gap:12px;margin-bottom:15px}
-.progress-top span{font-size:12px;color:#aaa}
-.progress-track{height:5px;background:#292929;border-radius:10px;overflow:hidden}
-.progress-fill{height:100%;width:0%;background:#eee;transition:width .3s}
-.lesson-list{display:grid;gap:10px}
-.lesson{
+.message{font-size:12px;line-height:1.6;margin-top:16px;color:#bbb}
+.hidden{display:none!important}
+.portal{width:100%;max-width:850px}
+.portal-header{
   display:flex;justify-content:space-between;align-items:center;
-  gap:18px;background:var(--panel);border:1px solid var(--line);
-  border-radius:10px;padding:18px;
+  gap:15px;border-bottom:1px solid #292929;padding-bottom:20px
 }
-.lesson-info{display:flex;align-items:center;gap:15px}
-.lesson-number{font-size:11px;color:#777}
-.lesson h3{font-size:13px;font-weight:500;margin-bottom:5px}
-.lesson p{font-size:11px;color:#777}
-.lesson button,.resource button{
+.logout{
   background:transparent;color:#ddd;border:1px solid #444;
-  border-radius:6px;padding:9px 12px;font-size:10px;
-  cursor:pointer;white-space:nowrap;transition:.2s;
+  border-radius:6px;padding:9px 13px;cursor:pointer
 }
-.lesson button:hover,.resource button:hover{background:#eee;color:#111}
-.lesson button:disabled{opacity:.5;cursor:default}
-.tag{font-size:10px;color:#888}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.info-card h3{font-size:14px;margin:12px 0}
-.info-card p{font-size:12px;color:#888;line-height:1.8}
-.resource-list{display:grid;gap:12px}
-.resource{display:flex;align-items:center;justify-content:space-between;gap:15px}
-.resource strong{font-size:12px;font-weight:500}
-.resource p{font-size:11px;color:#777;margin-top:5px}
-.notice{
-  margin-top:25px;padding:16px;border:1px solid var(--line);
-  border-radius:9px;color:#888;font-size:11px;line-height:1.7;
-}
-.mobile-menu{
-  display:none;background:#171717;border:1px solid #333;
-  color:white;padding:9px 12px;border-radius:7px;
-}
-footer{margin-top:55px;color:#555;font-size:10px;line-height:1.8}
-@media(max-width:760px){
-  .sidebar{transform:translateX(-100%);transition:.25s}
-  .sidebar.open{transform:translateX(0)}
-  .main{margin-left:0;width:100%;padding:23px 18px 45px}
-  .mobile-menu{display:block}
-  .topbar{margin-bottom:35px}
-  .stats{grid-template-columns:1fr}
-  .two-col{grid-template-columns:1fr}
-  .heading{font-size:36px}
-}
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+.portal h1{font-size:clamp(30px,5vw,48px);margin-top:40px}
+.portal p{color:#999;font-size:13px;line-height:1.8}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:30px}
+.card{background:#111;border:1px solid #292929;border-radius:10px;padding:22px}
+.card h3{font-size:14px;margin-bottom:10px}
+.card p{font-size:12px}
+.note{margin-top:25px;border:1px solid #292929;padding:17px;border-radius:8px}
+@media(max-width:500px){
+  .auth-box{padding:25px}
+  .cards{grid-template-columns:1fr}
 }
 </style>
 </head>
+
 <body>
 
-<div class="layout">
-  <aside class="sidebar" id="sidebar">
-    <div class="logo">fx<span>.</span>pray<span>.</span></div>
-    <div class="side-label">STUDENT PORTAL</div>
-    <nav class="nav">
-      <button class="active" data-page="overview">◈ &nbsp; Overview</button>
-      <button data-page="lessons">▤ &nbsp; My Lessons</button>
-      <button data-page="schedule">◷ &nbsp; Class Schedule</button>
-      <button data-page="resources">▧ &nbsp; Resources</button>
-    </nav>
-    <div class="sidebar-note">
-      FX.PRAY ACADEMY<br>
-      Learn with discipline.<br>
-      Understand the markets.
-    </div>
-  </aside>
+<div class="auth-box" id="authBox">
+  <div class="logo">fx<span>.</span>pray<span>.</span></div>
 
-  <main class="main">
-    <header class="topbar">
-      <div style="display:flex;align-items:center;gap:13px">
-        <button class="mobile-menu" id="menuBtn">☰</button>
-        <div>
-          <div class="eyebrow">FX.PRAY / LEARNING SPACE</div>
-          <h2>Student Dashboard</h2>
-        </div>
-      </div>
-      <div class="profile">STUDENT PREVIEW</div>
-    </header>
+  <div id="loginView">
+    <div class="eyebrow">STUDENT PORTAL</div>
+    <h1>Welcome back.</h1>
+    <p class="description">Sign in to access your fx.pray learning space.</p>
 
-    <section class="page active" id="overview">
-      <div class="eyebrow">YOUR LEARNING JOURNEY</div>
-      <h1 class="heading">Welcome to your<br>learning space.</h1>
-      <p class="sub">Your progress, lessons and class information — all in one place. Stay consistent, keep learning and build your understanding step by step.</p>
+    <form id="loginForm">
+      <label for="loginEmail">Email address</label>
+      <input id="loginEmail" type="email" required autocomplete="email">
 
-      <div class="stats">
-        <div class="card">
-          <div class="eyebrow">PROGRAM</div>
-          <div class="stat-number">08</div>
-          <div class="stat-label">Weeks of learning</div>
-        </div>
-        <div class="card">
-          <div class="eyebrow">CLASS DAY</div>
-          <div class="stat-number">SUN</div>
-          <div class="stat-label">Weekly live session</div>
-        </div>
-        <div class="card">
-          <div class="eyebrow">YOUR PROGRESS</div>
-          <div class="stat-number" id="completedCount">0/8</div>
-          <div class="stat-label">Lessons completed</div>
-        </div>
-      </div>
+      <label for="loginPassword">Password</label>
+      <input id="loginPassword" type="password" required autocomplete="current-password">
 
-      <div class="card progress-card">
-        <div class="progress-top">
-          <strong style="font-size:13px">Course progress</strong>
-          <span id="progressText">0% completed</span>
-        </div>
-        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-      </div>
+      <button class="primary" type="submit" id="loginButton">Sign In</button>
+    </form>
 
-      <h2 class="section-title">Your learning plan</h2>
-      <div class="lesson-list" id="overviewLessons"></div>
+    <button class="switch" id="showSignup">Create a student account</button>
+    <button class="switch" id="forgotPassword">Forgot password?</button>
+    <div class="message" id="loginMessage" aria-live="polite"></div>
+  </div>
 
-      <div class="notice">
-        <strong style="color:#ccc">Important:</strong> This is a dashboard preview. Progress is saved only in this browser. It does not yet provide private student accounts or secure access to lessons.
-      </div>
-    </section>
+  <div id="signupView" class="hidden">
+    <div class="eyebrow">JOIN FX.PRAY</div>
+    <h1>Create account.</h1>
+    <p class="description">Create your login using your email address.</p>
 
-    <section class="page" id="lessons">
-      <div class="eyebrow">YOUR COURSE</div>
-      <h1 class="heading">My Lessons.</h1>
-      <p class="sub">An eight-week learning roadmap, designed to take you through the foundations of trading education.</p>
-      <h2 class="section-title">Course curriculum</h2>
-      <div class="lesson-list" id="allLessons"></div>
-    </section>
+    <form id="signupForm">
+      <label for="signupEmail">Email address</label>
+      <input id="signupEmail" type="email" required autocomplete="email">
 
-    <section class="page" id="schedule">
-      <div class="eyebrow">STAY ORGANIZED</div>
-      <h1 class="heading">Class Schedule.</h1>
-      <p class="sub">Keep track of your weekly learning sessions.</p>
-      <div class="two-col" style="margin-top:30px">
-        <div class="card info-card">
-          <div class="eyebrow">WEEKLY SESSION</div>
-          <h3>Sunday Class</h3>
-          <p>One live learning session each week. The exact time and meeting details will be shared with enrolled students.</p>
-        </div>
-        <div class="card info-card">
-          <div class="eyebrow">PROGRAM DURATION</div>
-          <h3>8 Weeks</h3>
-          <p>Follow the weekly curriculum and review your learning materials between sessions.</p>
-        </div>
-      </div>
-      <div class="notice">No class time or meeting link has been configured in this preview.</div>
-    </section>
+      <label for="signupPassword">Create password</label>
+      <input id="signupPassword" type="password" minlength="6" required autocomplete="new-password">
 
-    <section class="page" id="resources">
-      <div class="eyebrow">YOUR STUDY MATERIAL</div>
-      <h1 class="heading">Resources.</h1>
-      <p class="sub">A space for notes, practice materials and session recaps.</p>
-      <div class="resource-list" style="margin-top:30px">
-        <div class="card resource">
-          <div><strong>Lesson Notes</strong><p>Study notes for each weekly topic</p></div>
-          <span class="tag">COMING SOON</span>
-        </div>
-        <div class="card resource">
-          <div><strong>Practice Materials</strong><p>Educational exercises and examples</p></div>
-          <span class="tag">COMING SOON</span>
-        </div>
-        <div class="card resource">
-          <div><strong>Session Recaps</strong><p>Review the key points from each class</p></div>
-          <span class="tag">COMING SOON</span>
-        </div>
-      </div>
-      <div class="notice">Learning resources will be added when the course content is ready.</div>
-    </section>
+      <button class="primary" type="submit" id="signupButton">Create Account</button>
+    </form>
 
-    <footer>
-      fx.pray. — Trading education only. This website is for educational purposes and does not provide financial advice, trading signals or guaranteed results. Trading involves risk.
-    </footer>
-  </main>
+    <button class="switch" id="showLogin">Already have an account? Sign in</button>
+    <div class="message" id="signupMessage" aria-live="polite"></div>
+  </div>
 </div>
 
+<main class="portal hidden" id="studentPortal">
+  <div class="portal-header">
+    <div class="logo">fx<span>.</span>pray<span>.</span></div>
+    <button class="logout" id="logoutButton">Sign out</button>
+  </div>
+
+  <div class="eyebrow" style="margin-top:45px">STUDENT LEARNING SPACE</div>
+  <h1>Welcome to fx.pray.</h1>
+  <p id="studentEmail"></p>
+
+  <div class="cards">
+    <div class="card">
+      <h3>My Lessons</h3>
+      <p>Your eight-week learning curriculum will appear here.</p>
+    </div>
+    <div class="card">
+      <h3>My Progress</h3>
+      <p>Your learning progress will be available here.</p>
+    </div>
+    <div class="card">
+      <h3>Class Schedule</h3>
+      <p>Weekly Sunday class information will appear here.</p>
+    </div>
+    <div class="card">
+      <h3>Resources</h3>
+      <p>Study notes and learning materials will appear here.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <p>Account login is working in this first version. Course access is not yet enabled. Student applications must still be reviewed before enrollment is confirmed.</p>
+  </div>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
 <script>
-const lessons = [
-  "Trading Fundamentals",
-  "Candlesticks & Price Action",
-  "Market Structure",
-  "Liquidity Concepts",
-  "Fair Value Gaps (FVG)",
-  "Entry Models & Confirmation",
-  "Risk Management",
-  "Trading Psychology & Practical Analysis"
-];
+const firebaseConfig = {
+  apiKey: "AIzaSyCXtsntQZI9TapPEbuqZpN_bmgacq_ufV8",
+  authDomain: "fx-pray-academy.firebaseapp.com",
+  projectId: "fx-pray-academy",
+  storageBucket: "fx-pray-academy.firebasestorage.app",
+  messagingSenderId: "573626554936",
+  appId: "1:573626554936:web:0991cfe3bc1147bfa824cd"
+};
 
-let completed = JSON.parse(sessionStorage.getItem("fxprayProgress") || "[]");
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 
-function renderLessons(targetId) {
-  const target = document.getElementById(targetId);
-  target.innerHTML = lessons.map((lesson, index) => {
-    const done = completed.includes(index);
-    return `
-      <div class="lesson">
-        <div class="lesson-info">
-          <div class="lesson-number">W${String(index+1).padStart(2,"0")}</div>
-          <div>
-            <h3>${lesson}</h3>
-            <p>${done ? "Completed" : "Part of your 8-week program"}</p>
-          </div>
-        </div>
-        <button onclick="toggleLesson(${index})">${done ? "Completed ✓" : "Mark done"}</button>
-      </div>`;
-  }).join("");
+const authBox = document.getElementById("authBox");
+const studentPortal = document.getElementById("studentPortal");
+const loginView = document.getElementById("loginView");
+const signupView = document.getElementById("signupView");
+
+function showMessage(id, message) {
+  document.getElementById(id).textContent = message;
 }
 
-function updateProgress() {
-  const count = completed.length;
-  const percent = Math.round(count / lessons.length * 100);
-  document.getElementById("completedCount").textContent = count + "/8";
-  document.getElementById("progressText").textContent = percent + "% completed";
-  document.getElementById("progressFill").style.width = percent + "%";
-  renderLessons("overviewLessons");
-  renderLessons("allLessons");
+function showLogin() {
+  loginView.classList.remove("hidden");
+  signupView.classList.add("hidden");
+  showMessage("loginMessage", "");
+  showMessage("signupMessage", "");
 }
 
-function toggleLesson(index) {
-  if (completed.includes(index)) {
-    completed = completed.filter(item => item !== index);
-  } else {
-    completed.push(index);
+function showSignup() {
+  signupView.classList.remove("hidden");
+  loginView.classList.add("hidden");
+  showMessage("loginMessage", "");
+  showMessage("signupMessage", "");
+}
+
+document.getElementById("showSignup").onclick = showSignup;
+document.getElementById("showLogin").onclick = showLogin;
+
+document.getElementById("signupForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const button = document.getElementById("signupButton");
+  const email = document.getElementById("signupEmail").value.trim();
+  const password = document.getElementById("signupPassword").value;
+
+  button.disabled = true;
+  showMessage("signupMessage", "Creating your account...");
+
+  try {
+    const result = await auth.createUserWithEmailAndPassword(email, password);
+    await result.user.sendEmailVerification();
+    await auth.signOut();
+
+    document.getElementById("signupForm").reset();
+    showLogin();
+    showMessage("loginMessage", "Account created! Please verify your email using the link we sent before signing in.");
+  } catch (error) {
+    showMessage("signupMessage", error.message);
+  } finally {
+    button.disabled = false;
   }
-  sessionStorage.setItem("fxprayProgress", JSON.stringify(completed));
-  updateProgress();
-}
-
-document.querySelectorAll(".nav button").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll(".nav button").forEach(item => item.classList.remove("active"));
-    document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
-    button.classList.add("active");
-    document.getElementById(button.dataset.page).classList.add("active");
-    document.getElementById("sidebar").classList.remove("open");
-    window.scrollTo(0, 0);
-  });
 });
 
-document.getElementById("menuBtn").addEventListener("click", () => {
-  document.getElementById("sidebar").classList.toggle("open");
+document.getElementById("loginForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const button = document.getElementById("loginButton");
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  button.disabled = true;
+  showMessage("loginMessage", "Signing in...");
+
+  try {
+    const result = await auth.signInWithEmailAndPassword(email, password);
+
+    if (!result.user.emailVerified) {
+      await auth.signOut();
+      showMessage("loginMessage", "Please verify your email first. Check your inbox for the verification link.");
+    }
+  } catch (error) {
+    showMessage("loginMessage", error.message);
+  } finally {
+    button.disabled = false;
+  }
 });
 
-updateProgress();
+document.getElementById("forgotPassword").onclick = async () => {
+  const email = document.getElementById("loginEmail").value.trim();
+
+  if (!email) {
+    showMessage("loginMessage", "Enter your email address first.");
+    return;
+  }
+
+  try {
+    await auth.sendPasswordResetEmail(email);
+    showMessage("loginMessage", "If an account exists for that address, a password reset email has been sent.");
+  } catch (error) {
+    showMessage("loginMessage", error.message);
+  }
+};
+
+document.getElementById("logoutButton").onclick = () => auth.signOut();
+
+auth.onAuthStateChanged((user) => {
+  if (user && user.emailVerified) {
+    authBox.classList.add("hidden");
+    studentPortal.classList.remove("hidden");
+    document.getElementById("studentEmail").textContent = user.email;
+  } else {
+    authBox.classList.remove("hidden");
+    studentPortal.classList.add("hidden");
+  }
+});
 </script>
+
 </body>
 </html>
