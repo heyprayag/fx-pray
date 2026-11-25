@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07110d">
+<title>Student Login | fx.pray.</title>
+<style>
+:root{--bg:#080808;--panel:#111;--line:#292929;--text:#f5f5f5;--muted:#929292;--green:#63d6a0;--green-soft:rgba(99,214,160,.1)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at 80% 15%,rgba(99,214,160,.12),transparent 32%),var(--bg);color:var(--text);font-family:Arial,sans-serif;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+header{height:76px;border-bottom:1px solid var(--line);display:flex;align-items:center}
+.wrap{width:min(1080px,90%);margin:auto}
+.logo{font-size:25px;font-weight:800;letter-spacing:-1.5px}.logo span{color:var(--green)}
+main{flex:1;display:grid;place-items:center;padding:55px 0}
+.login-shell{width:min(460px,100%);background:rgba(17,17,17,.96);border:1px solid var(--line);padding:38px}
+.eyebrow{color:var(--green);font-size:11px;letter-spacing:3px;font-weight:700;text-transform:uppercase}
+h1{font-size:34px;letter-spacing:-1.4px;margin:15px 0 10px}
+.sub{color:var(--muted);font-size:14px;line-height:1.7;margin:0 0 28px}
+label{display:block;font-size:12px;color:#ccc;margin:18px 0 8px}
+input{width:100%;background:#080808;border:1px solid #333;color:white;padding:14px;font-size:14px;outline:none}
+input:focus{border-color:var(--green)}
+button{width:100%;border:1px solid var(--green);background:var(--green);color:#06110b;padding:14px;font-weight:700;cursor:pointer;margin-top:22px}
+button:disabled{opacity:.55;cursor:wait}
+.text-button{display:block;width:auto;margin:18px auto 0;background:none;border:0;color:var(--green);padding:5px;font-weight:600}
+.message{display:none;margin-top:18px;padding:14px;border:1px solid var(--line);font-size:13px;line-height:1.65;color:#ddd;overflow-wrap:anywhere}
+.message.show{display:block}
+.message.good{border-color:rgba(99,214,160,.45);background:var(--green-soft)}
+.message.warn{border-color:#705c31;background:rgba(180,140,50,.08)}
+.private-note{border-top:1px solid var(--line);margin-top:25px;padding-top:18px;color:#777;font-size:11px;line-height:1.7}
+footer{padding:22px 0;border-top:1px solid var(--line);color:#777;font-size:11px}
+#accountArea{display:none}
+@media(max-width:520px){.login-shell{padding:28px 22px}h1{font-size:29px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="logo" href="index.html">fx.pray<span>.</span></a></div></header>
+<main>
+<div class="login-shell">
+  <div class="eyebrow">Student Portal</div>
+  <h1>Welcome back.</h1>
+  <p class="sub">Sign in with the email and password associated with your fx.pray student account.</p>
+  <form id="loginForm">
+    <label for="email">Email address</label>
+    <input id="email" type="email" autocomplete="username" required placeholder="you@example.com">
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password" required placeholder="Your password">
+    <button id="loginButton" type="submit">Sign In</button>
+  </form>
+  <button class="text-button" id="resetButton" type="button">Forgot password?</button>
+  <div class="message" id="message" role="status" aria-live="polite"></div>
+  <div id="accountArea">
+    <button id="logoutButton" type="button">Sign Out</button>
+  </div>
+  <div class="private-note">
+    Student sign-in checks your account and enrollment status only. Course PDFs,
+    meeting links and private contact details are shared separately with approved
+    students. Never share your password with anyone.
+  </div>
+</div>
+</main>
+<footer><div class="wrap">© 2026 fx.pray. · <a href="index.html">Back to website</a></div></footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCZnMVN8qSZ1jfgLwZBrEhP6Jfmcf6il8",
+  authDomain: "fx-pray-academy.firebaseapp.com",
+  projectId: "fx-pray-academy",
+  storageBucket: "fx-pray-academy.firebasestorage.app",
+  messagingSenderId: "573626554936",
+  appId: "1:573626554936:web:b7126dd41c012f03a824cd"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const form = document.getElementById("loginForm");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const loginButton = document.getElementById("loginButton");
+const resetButton = document.getElementById("resetButton");
+const logoutButton = document.getElementById("logoutButton");
+const message = document.getElementById("message");
+const accountArea = document.getElementById("accountArea");
+
+function showMessage(text, type = "") {
+  message.textContent = text;
+  message.className = "message show " + type;
+}
+function friendlyError(error) {
+  const code = error?.code || "";
+  if (code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/user-not-found") return "The email or password is incorrect. Please check and try again.";
+  if (code === "auth/too-many-requests") return "Too many attempts. Please wait a while before trying again.";
+  if (code === "auth/network-request-failed") return "Network error. Check your internet connection and try again.";
+  if (code === "permission-denied" || code === "firestore/permission-denied") return "Your sign-in worked, but Firestore rules are not allowing the student profile check yet. Please contact the academy administrator.";
+  return "We couldn't complete the request. Please try again or contact the academy.";
+}
+
+async function checkStudentProfile(user) {
+  try {
+    const profileRef = doc(db, "he ram", user.uid);
+    const profileSnap = await getDoc(profileRef);
+    if (!profileSnap.exists()) {
+      showMessage("Your login is valid, but we couldn't find a student profile linked to this account. Please contact the academy and share the email used to sign in.", "warn");
+      return;
+    }
+    const status = String(profileSnap.data().status || "").trim().toLowerCase();
+    if (status === "approved") {
+      showMessage("Your student account is approved. Your course materials and session details are shared privately by the academy. Please check the message or email you received after enrollment.", "good");
+    } else if (status === "pending") {
+      showMessage("Your account is currently pending approval. The academy will contact you after reviewing your enrollment.", "warn");
+    } else {
+      showMessage("Your account is not currently marked as approved. Please contact the academy for an update.", "warn");
+    }
+    accountArea.style.display = "block";
+    form.style.display = "none";
+    resetButton.style.display = "none";
+  } catch (error) {
+    console.error(error);
+    showMessage(friendlyError(error), "warn");
+  }
+}
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  loginButton.disabled = true;
+  loginButton.textContent = "Signing in...";
+  message.className = "message";
+  try {
+    const credential = await signInWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value);
+    await checkStudentProfile(credential.user);
+  } catch (error) {
+    showMessage(friendlyError(error), "warn");
+  } finally {
+    loginButton.disabled = false;
+    loginButton.textContent = "Sign In";
+  }
+});
+
+resetButton.addEventListener("click", async () => {
+  const email = emailInput.value.trim();
+  if (!email) {
+    showMessage("Enter your account email above first, then select Forgot password again.");
+    emailInput.focus();
+    return;
+  }
+  try {
+    await sendPasswordResetEmail(auth, email);
+    showMessage("If an account exists for that email, Firebase will send a password-reset email. Check your inbox and spam folder.", "good");
+  } catch (error) {
+    showMessage(friendlyError(error), "warn");
+  }
+});
+
+logoutButton.addEventListener("click", async () => {
+  await signOut(auth);
+  form.reset();
+  form.style.display = "block";
+  resetButton.style.display = "block";
+  accountArea.style.display = "none";
+  showMessage("You have signed out.");
+});
+</script>
+</body>
+</html>
