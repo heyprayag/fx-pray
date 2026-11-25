@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080808">
+<meta name="theme-color" content="#07110d">
 <title>fx.pray. — Trading Academy</title>
 <meta name="description" content="Learn trading from the fundamentals with fx.pray. Explore our eight-week personal trading mentorship.">
 
@@ -18,7 +18,9 @@
   --white:#f5f5f5;
   --muted:#929292;
   --line:#262626;
-  --accent:#d5d5d5;
+  --accent:#63d6a0;
+  --accent-soft:rgba(99,214,160,.12);
+  --accent-line:rgba(99,214,160,.32);
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -74,7 +76,7 @@ nav{
   font-size:13px;
 }
 
-.nav-links a:hover{color:white}
+.nav-links a:hover{color:var(--accent)}
 
 .btn{
   display:inline-flex;
@@ -82,9 +84,9 @@ nav{
   justify-content:center;
   gap:10px;
   padding:14px 22px;
-  background:white;
-  color:black;
-  border:1px solid white;
+  background:var(--accent);
+  color:#06110b;
+  border:1px solid var(--accent);
   font-size:13px;
   font-weight:700;
   transition:.25s;
@@ -93,18 +95,18 @@ nav{
 
 .btn:hover{
   background:transparent;
-  color:white;
+  color:var(--accent);
 }
 
 .btn-outline{
   background:transparent;
   color:white;
-  border-color:#444;
+  border-color:var(--accent-line);
 }
 
 .btn-outline:hover{
-  background:white;
-  color:black;
+  background:var(--accent);
+  color:#06110b;
 }
 
 .menu-btn{
@@ -130,7 +132,7 @@ nav{
   width:550px;
   height:550px;
   border-radius:50%;
-  background:radial-gradient(circle,rgba(255,255,255,.07),transparent 70%);
+  background:radial-gradient(circle,rgba(99,214,160,.16),transparent 70%);
   right:-100px;
   top:0;
   pointer-events:none;
@@ -143,7 +145,7 @@ nav{
 }
 
 .eyebrow{
-  color:#999;
+  color:var(--accent);
   font-size:11px;
   letter-spacing:4px;
   font-weight:700;
@@ -159,7 +161,7 @@ nav{
   margin:27px 0;
 }
 
-.hero h1 span{color:#777}
+.hero h1 span{color:var(--accent)}
 
 .hero-desc{
   color:var(--muted);
@@ -223,7 +225,7 @@ nav{
 section{padding:105px 0}
 
 .section-label{
-  color:#777;
+  color:var(--accent);
   font-size:11px;
   letter-spacing:3px;
   text-transform:uppercase;
@@ -364,7 +366,7 @@ section{padding:105px 0}
 .included li:before{
   content:"✓";
   margin-right:10px;
-  color:white;
+  color:var(--accent);
 }
 
 .pricing-note{
@@ -533,12 +535,12 @@ body {
 .feature:hover,
 .pricing-card:hover {
   transform: translateY(-6px);
-  border-color: #777;
-  background: #151515;
+  border-color: var(--accent-line);
+  background: linear-gradient(145deg, rgba(99,214,160,.07), #151515 65%);
 }
 
 .about-visual:hover {
-  border-color: #888;
+  border-color: var(--accent-line);
 }
 
 /* Curriculum hover */
@@ -566,7 +568,7 @@ body {
 
 .btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(255,255,255,.08);
+  box-shadow: 0 8px 25px rgba(99,214,160,.18);
 }
 
 /* FAQ animation */
@@ -610,11 +612,11 @@ body {
 
 .join-step:hover {
   transform: translateY(-5px);
-  border-color: #777;
+  border-color: var(--accent-line);
 }
 
 .join-step-number {
-  color: #777;
+  color: var(--accent);
   font-size: 11px;
   letter-spacing: 2px;
 }
@@ -649,6 +651,24 @@ body {
     min-height: auto;
   }
 }
+/* FX.PRAY emerald accent system */
+::selection{background:var(--accent);color:#06110b}
+a:focus-visible,button:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:4px;
+}
+.stat strong{color:var(--accent)}
+.week:hover{background:rgba(99,214,160,.045)}
+.week-arrow{color:var(--accent)}
+.included li:before{color:var(--accent)}
+.join-step:hover{border-color:var(--accent-line)}
+.join-step-number{color:var(--accent)}
+.contact-box{
+  background:linear-gradient(145deg,rgba(99,214,160,.07),#111 55%);
+  border-color:var(--accent-line);
+}
+.logo span{color:var(--accent)}
+.btn-outline{border-color:var(--accent-line)}
 /* Accessibility: respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
