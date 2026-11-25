@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#07110d">
 <title>fx.pray. — Trading Academy</title>
-<meta name="description" content="Learn trading from the fundamentals with fx.pray. Explore our eight-week personal trading mentorship.">
+<meta name="description" content="Explore structured trading education, beginner lessons and personal learning programs with fx.pray.">
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
@@ -701,7 +701,7 @@ a:focus-visible,button:focus-visible{
     </div>
 
     <a class="btn nav-cta" href="#mentorship">Explore Program ↗</a>
-    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">☰</button>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation menu" aria-controls="navLinks" aria-expanded="false">☰</button>
   </div>
 </nav>
 
@@ -980,7 +980,7 @@ a:focus-visible,button:focus-visible{
 
 <section id="faq">
   <div class="container">
-    <div class="section-label">06 / Frequently Asked Questions</div>
+    <div class="section-label">05 / Frequently Asked Questions</div>
     <h2 class="section-title">Questions? Answered.</h2>
 
     <div class="faq-list">
@@ -1036,7 +1036,7 @@ a:focus-visible,button:focus-visible{
 <section id="contact">
   <div class="container">
     <div class="contact-box">
-      <div class="section-label">05 / Your Journey Starts Here</div>
+      <div class="section-label">06 / Your Journey Starts Here</div>
       <h2 class="section-title">Build your understanding.</h2>
       <p class="section-desc">
         Interested in learning with fx.pray?
@@ -1077,12 +1077,14 @@ const menuBtn = document.getElementById('menuBtn');
 const navLinks = document.getElementById('navLinks');
 
 menuBtn.addEventListener('click', () => {
-  navLinks.classList.toggle('show');
+  const isOpen = navLinks.classList.toggle('show');
+  menuBtn.setAttribute('aria-expanded', String(isOpen));
 });
 
 document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', () => {
     navLinks.classList.remove('show');
+    menuBtn.setAttribute('aria-expanded', 'false');
   });
 });
 
@@ -1090,8 +1092,9 @@ document.querySelectorAll('.faq-question').forEach(button => {
   button.addEventListener('click', () => {
     const item = button.parentElement;
     item.classList.toggle('active');
-    button.querySelector('span').textContent =
-      item.classList.contains('active') ? '−' : '+';
+    const isOpen = item.classList.contains('active');
+    button.setAttribute('aria-expanded', String(isOpen));
+    button.querySelector('span').textContent = isOpen ? '−' : '+';
   });
 });
 
