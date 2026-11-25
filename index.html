@@ -319,12 +319,25 @@ section{padding:105px 0}
 .week p{font-size:12px;color:#777;margin-top:5px}
 .week-arrow{color:#777;font-size:20px}
 
-.pricing-card{
+.pricing-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
   margin-top:40px;
-  max-width:650px;
-  padding:42px;
+  align-items:stretch;
+}
+.pricing-card{
+  padding:30px 25px;
   background:var(--surface);
   border:1px solid #444;
+  display:flex;
+  flex-direction:column;
+}
+.pricing-card .price{font-size:44px}
+.pricing-card .included{grid-template-columns:1fr;gap:13px}
+.pricing-card .btn{margin-top:auto;text-align:center}
+@media(max-width:900px){
+  .pricing-grid{grid-template-columns:1fr}
 }
 
 .price{
@@ -873,36 +886,65 @@ body {
     <h2 class="section-title">Learn directly.<br>Learn personally.</h2>
 
     <p class="section-desc">
-      An eight-week educational experience
-      designed for learners who want to understand
-      trading from the beginning.
+      Choose the learning commitment that suits you.
+      Every program is educational and includes scheduled Sunday sessions.
     </p>
 
-    <div class="pricing-card">
-      <div class="section-label">THE COMPLETE PROGRAM</div>
-      <div class="price">₹5,000</div>
-      <div class="price-sub">One-time fee for the eight-week program</div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="section-label">FOUNDATION PROGRAM</div>
+        <div class="price">₹5,000</div>
+        <div class="price-sub">One-time fee · 8 weeks</div>
+        <ul class="included">
+          <li>Beginner-friendly eight-week curriculum</li>
+          <li>Weekly Sunday learning sessions</li>
+          <li>Trading foundations and price action</li>
+          <li>Risk management fundamentals</li>
+          <li>Learning exercises and revision</li>
+        </ul>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc23OzAaAF6MOSfm3VgcGboQESLAx91yOlbj70nrIHsM23pZA/viewform"
+           target="_blank" rel="noopener noreferrer" class="btn">Apply Now ↗</a>
+      </div>
 
-      <ul class="included">
-        <li>Eight-week curriculum</li>
-        <li>One-on-one mentorship</li>
-        <li>Weekly Sunday sessions</li>
-        <li>Beginner-friendly learning</li>
-        <li>Price action education</li>
-        <li>Risk management education</li>
-      </ul>
+      <div class="pricing-card">
+        <div class="section-label">YEARLY LEARNING PROGRAM</div>
+        <div class="price">₹35,000</div>
+        <div class="price-sub">One-time fee · 12 months</div>
+        <ul class="included">
+          <li>Structured learning across twelve months</li>
+          <li>Scheduled Sunday sessions</li>
+          <li>Educational review of the week's market activity</li>
+          <li>Discussion of market concepts and chart examples</li>
+          <li>Continued practice and learning exercises</li>
+          <li>Risk awareness and trading psychology</li>
+        </ul>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc23OzAaAF6MOSfm3VgcGboQESLAx91yOlbj70nrIHsM23pZA/viewform"
+           target="_blank" rel="noopener noreferrer" class="btn">Apply Now ↗</a>
+      </div>
 
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSc23OzAaAF6MOSfm3VgcGboQESLAx91yOlbj70nrIHsM23pZA/viewform"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="btn">Apply Now ↗</a>
-
-      <p class="pricing-note">
-        Enrollment is subject to confirmation and
-        availability. Educational content does not
-        guarantee trading profits.
-      </p>
+      <div class="pricing-card">
+        <div class="section-label">LIFETIME MEMBERSHIP</div>
+        <div class="price">₹90,000</div>
+        <div class="price-sub">One-time fee · lifetime membership</div>
+        <ul class="included">
+          <li>Access to the academy's educational membership while it operates</li>
+          <li>Scheduled Sunday educational sessions</li>
+          <li>Ongoing weekly market-learning discussions</li>
+          <li>Access to available course materials and revisions</li>
+          <li>Continued concept practice and review</li>
+          <li>Risk management and trading psychology education</li>
+        </ul>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc23OzAaAF6MOSfm3VgcGboQESLAx91yOlbj70nrIHsM23pZA/viewform"
+           target="_blank" rel="noopener noreferrer" class="btn">Apply Now ↗</a>
+      </div>
     </div>
+
+    <p class="pricing-note">
+      All sessions are educational, not trade signals or personalized investment advice.
+      Weekly market discussions explain past and current market activity for learning;
+      they do not promise results or profits. Session schedules, materials, membership
+      duration and any exclusions should be confirmed in writing before enrollment.
+    </p>
   </div>
 </section>
 
